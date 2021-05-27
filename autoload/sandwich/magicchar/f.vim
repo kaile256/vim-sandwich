@@ -67,9 +67,16 @@ function! s:buffer_completion() abort "{{{
   let lines = getline(1, '$')
   let pattern_list = s:resolve_patterns()
   for func in pattern_list
-    let pat = printf('%s\ze%s', func.header, func.bra)
+    if func.lisp
+      let pre = func.bra
+      let fix = func.header
+    else
+      let pre = func.header
+      let fix = func.bra
+    endif
+    let prefix = printf('%s\ze%s', pre, fix)
     for line in lines
-      let list += s:extract_pattern(line, pat)
+      let list += s:extract_pattern(line, prefix)
     endfor
   endfor
   return list
