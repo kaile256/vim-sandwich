@@ -175,9 +175,10 @@ function! s:search_pattern(candidates, pattern, mode, count, rank, orig_pos, upp
   let bra    = a:pattern.bra
   let ket    = a:pattern.ket
   let footer = a:pattern.footer
+  let is_lisp = get(a:pattern, 'lisp', 0)
 
   let loop = 0
-  let head = header . bra
+  let head = is_lisp ? bra . header : header . bra
   let tail = ket . footer
 
   let bra_pos = s:search_key_bra(a:mode, a:orig_pos, bra, ket, head, tail, a:upper_line, a:lower_line)
